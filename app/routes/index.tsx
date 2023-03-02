@@ -239,7 +239,7 @@ const Index = () => {
         </div>
         <a
           href="#"
-          className="absolute top-0 left-0 w-full h-full -z-10 bg-black/80 opacity-0 group-target:opacity-100 transition-opacity duration-300"></a>
+          className="fixed top-0 left-0 w-full h-full -z-10 bg-black/80 opacity-0 group-target:opacity-100 transition-opacity duration-300"></a>
       </div>
     </>
   );
