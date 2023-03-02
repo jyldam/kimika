@@ -8,16 +8,21 @@
     "dev:css": "tailwindcss -w -i ./styles/app.css -o app/styles/app.css",
     "start": "cross-env NODE_ENV=production netlify dev",
     "typecheck": "tsc",
-    "lint": "eslint . --ext .ts --ext .tsx --config .eslintrc"
+    "lint": "eslint . --ext .ts --ext .tsx --config .eslintrc",
+    "format": "prettier --write ."
   },
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^1.4.4",
     "@netlify/functions": "^1.3.0",
     "@remix-run/netlify": "^1.12.0",
     "@remix-run/node": "^1.12.0",
     "@remix-run/react": "^1.12.0",
     "cross-env": "^7.0.3",
+    "hcaptcha": "^0.1.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-input-mask": "^2.0.4",
+    "swiper": "^9.1.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.12.0",
@@ -25,6 +30,7 @@
     "@remix-run/serve": "^1.12.0",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
+    "@types/react-input-mask": "^3.0.2",
     "concurrently": "^7.6.0",
     "eslint": "^8.27.0",
     "prettier": "^2.8.4",

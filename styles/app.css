@@ -1,3 +1,14 @@
+@import 'swiper/swiper.min.css';
+@import 'swiper/modules/navigation/navigation.min.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
