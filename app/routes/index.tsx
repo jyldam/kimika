@@ -1,8 +1,5 @@
 import {Swiper, SwiperSlide} from 'swiper/react';
-import fs from 'fs';
-import type {LoaderFunction} from '@remix-run/node';
-import {json} from '@remix-run/node';
-import {Form, useLoaderData} from '@remix-run/react';
+import {Form} from '@remix-run/react';
 import {Autoplay, Navigation} from 'swiper';
 import TextInput from '~/components/form/text-input';
 import Button from '~/components/actions/button';
@@ -11,21 +8,9 @@ import TextArea from '~/components/form/text-area';
 import MaskedTextInput from '~/components/form/masked-text-input';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import {SITE_KEY} from '~/constants/captcha';
-
-export type LoaderData = {
-  slides: string[];
-};
-
-export const loader: LoaderFunction = () => {
-  const slides = fs
-    .readdirSync('./public/slides/')
-    .map(slide => `/slides/${slide}`);
-
-  return json<LoaderData>({slides});
-};
+import {range} from 'lodash';
 
 const Index = () => {
-  const {slides} = useLoaderData<LoaderData>();
   const [captchaToken, setCaptchaToken] = useState('');
 
   useEffect(() => {
@@ -62,15 +47,15 @@ const Index = () => {
             }}
             modules={[Autoplay, Navigation]}
             className="bg-black">
-            {slides.map(slide => (
-              <SwiperSlide className="relative" key={slide}>
+            {range(0, 6).map(num => (
+              <SwiperSlide className="relative" key={num}>
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
                   <h1 className="text-white text-4xl text-center font-bold italic uppercase drop-shadow-xl text-yellow-400">
                     Kimika detailing
                   </h1>
                 </div>
                 <img
-                  src={slide}
+                  src={`/slides/${num}.jpg`}
                   alt=""
                   className="w-full max-h-screen object-cover opacity-50"
                 />
