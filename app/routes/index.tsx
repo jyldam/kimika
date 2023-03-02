@@ -190,7 +190,7 @@ const Index = () => {
       <div
         id="contact"
         className="fixed top-0 left-0 w-full h-full p-4 z-20 overflow-x-hidden overflow-y-auto flex invisible target:visible transition-[visibility] duration-300 group">
-        <div className="bg-black p-4 rounded-xl shadow m-auto w-full border border-white/10 translate-x-full scale-50 group-target:translate-x-0 group-target:scale-100 transition-transform duration-300">
+        <div className="bg-black p-4 rounded-xl shadow m-auto w-full max-w-xl border border-white/10 translate-x-full translate-y-full scale-0 group-target:translate-x-0 group-target:translate-y-0 group-target:scale-100 transition-transform duration-300 sm:mr-0 sm:rounded-br-none">
           <div className="mb-8 space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold italic text-3xl uppercase">
@@ -207,15 +207,17 @@ const Index = () => {
           </div>
 
           <Form action="/" className="space-y-4">
-            <TextInput label="Имя" name="name" id="ask_name" required />
-            <MaskedTextInput
-              mask="+7 (999) 999-99-99"
-              type="tel"
-              label="Номер телефона"
-              name="phone"
-              id="ask_phone"
-              required
-            />
+            <div className="sm:flex sm:gap-4">
+              <TextInput label="Имя" name="name" id="ask_name" required />
+              <MaskedTextInput
+                mask="+7 (999) 999-99-99"
+                type="tel"
+                label="Номер телефона"
+                name="phone"
+                id="ask_phone"
+                required
+              />
+            </div>
             <TextInput
               type="email"
               label="Электронная почта"
@@ -229,8 +231,10 @@ const Index = () => {
               required
             />
 
-            <input type="hidden" name="captcha_token" value={captchaToken} />
-            <HCaptcha sitekey={SITE_KEY} onVerify={setCaptchaToken} />
+            <div>
+              <input type="hidden" name="captcha_token" value={captchaToken} />
+              <HCaptcha sitekey={SITE_KEY} onVerify={setCaptchaToken} />
+            </div>
 
             <div className="flex justify-end">
               <Button type="submit">Отправить</Button>
@@ -239,7 +243,7 @@ const Index = () => {
         </div>
         <a
           href="#"
-          className="fixed top-0 left-0 w-full h-full -z-10 bg-black/80 opacity-0 group-target:opacity-100 transition-opacity duration-300"></a>
+          className="fixed top-0 left-0 w-full h-full -z-10 bg-black/80 opacity-0 group-target:opacity-100 transition-opacity duration-300 sm:bg-transparent"></a>
       </div>
     </>
   );
