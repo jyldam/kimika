@@ -1,16 +1,22 @@
-import {Swiper, SwiperSlide} from 'swiper/react';
-import {Form} from '@remix-run/react';
-import {Autoplay, Navigation} from 'swiper';
+import {Form, useLoaderData} from '@remix-run/react';
 import TextInput from '~/components/form/text-input';
-import Button from '~/components/actions/button';
 import {useEffect, useState} from 'react';
 import TextArea from '~/components/form/text-area';
 import MaskedTextInput from '~/components/form/masked-text-input';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import {SITE_KEY} from '~/constants/captcha';
-import {range} from 'lodash';
+import ServicesSlider from '~/features/service/components/services-slider';
+import {json} from '@remix-run/node';
+import parsePosts from '~/features/insta/utils/parse-posts.server';
+
+export const loader = async () => {
+  const instaImages = await parsePosts();
+
+  return json({instaImages});
+};
 
 const Index = () => {
+  const {instaImages} = useLoaderData<typeof loader>();
   const [captchaToken, setCaptchaToken] = useState('');
 
   useEffect(() => {
@@ -25,64 +31,15 @@ const Index = () => {
     return () => removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const instaFeed = [
-    'http://ctan.math.utah.edu/ctan/tex-archive/macros/latex/contrib/mwe/example-image-9x16.png',
-    'http://ctan.math.utah.edu/ctan/tex-archive/macros/latex/contrib/mwe/example-image-9x16.png',
-    'http://ctan.math.utah.edu/ctan/tex-archive/macros/latex/contrib/mwe/example-image-9x16.png',
-  ];
-
   return (
     <>
       <main className="flex-grow">
-        <section className="relative">
-          <Swiper
-            navigation={{
-              nextEl: '[data-next-slide]',
-              prevEl: '[data-prev-slide]',
-            }}
-            loop={true}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
-            }}
-            modules={[Autoplay, Navigation]}
-            className="bg-black">
-            {range(0, 6).map(num => (
-              <SwiperSlide className="relative" key={num}>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                  <h1 className="text-white text-4xl text-center font-bold italic uppercase drop-shadow-xl text-yellow-400">
-                    Kimika detailing
-                  </h1>
-                </div>
-                <img
-                  src={`/slides/${num}.jpg`}
-                  alt=""
-                  className="w-full max-h-screen object-cover opacity-50"
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-
-          <div className="absolute top-0 left-0 w-full h-full z-10">
-            <div className="flex justify-between h-full">
-              <button data-prev-slide="" className="h-full px-4">
-                <span className="material-symbols-outlined text-yellow-400 text-3xl lg:text-6xl">
-                  chevron_left
-                </span>
-              </button>
-              <button data-next-slide="" className="h-full px-4">
-                <span className="material-symbols-outlined text-yellow-400 text-3xl lg:text-6xl">
-                  chevron_right
-                </span>
-              </button>
-            </div>
-          </div>
-        </section>
+        <ServicesSlider />
 
         <div className="lg:flex lg:items-start">
           <section className="py-8 lg:py-16 lg:w-full lg:sticky lg:top-0">
             <div className="max-w-screen-xl w-full mx-auto px-4">
-              <h2 className="text-2xl mb-8 font-bold italic text-3xl uppercase">
+              <h2 className="mb-8 font-bold italic text-3xl uppercase">
                 Example text
               </h2>
 
@@ -110,13 +67,13 @@ const Index = () => {
 
           <section className="py-8 lg:py-16 lg:w-full lg:sticky lg:top-0">
             <div className="max-w-screen-xl w-full mx-auto px-4">
-              <h2 className="text-2xl mb-8 font-bold italic text-3xl uppercase">
+              <h2 className="mb-8 font-bold italic text-3xl uppercase">
                 Instagram example
               </h2>
 
               <div className="flex flex-col gap-4 mb-8">
-                {instaFeed.map((image, i) => (
-                  <article key={i}>
+                {instaImages.map(image => (
+                  <article key={image}>
                     <img
                       src={image}
                       alt="Instagram post"
@@ -127,19 +84,19 @@ const Index = () => {
               </div>
 
               <div className="flex justify-center">
-                <Button>
+                <button className="btn">
                   <span>Все публикации</span>
                   <span className="material-symbols-outlined animate-swim-right">
                     chevron_right
                   </span>
-                </Button>
+                </button>
               </div>
             </div>
           </section>
 
           <section className="py-8 relative lg:py-16 lg:w-full lg:sticky lg:top-0">
             <div className="max-w-screen-xl w-full mx-auto px-4">
-              <h2 className="text-2xl mb-8 font-bold italic text-3xl uppercase">
+              <h2 className="mb-8 font-bold italic text-3xl uppercase">
                 Example text
               </h2>
 
@@ -190,10 +147,10 @@ const Index = () => {
       <div
         id="contact"
         className="fixed top-0 left-0 w-full h-full p-4 z-20 overflow-x-hidden overflow-y-auto flex invisible target:visible transition-[visibility] duration-300 group">
-        <div className="bg-black p-4 rounded-xl shadow m-auto w-full max-w-xl border border-white/10 translate-x-full translate-y-full scale-0 group-target:translate-x-0 group-target:translate-y-0 group-target:scale-100 transition-transform duration-300 sm:mr-0 sm:rounded-br-none">
+        <div className="bg-primary-black/95 backdrop-blur-lg p-4 rounded-xl shadow m-auto w-full max-w-xl border border-white/10 translate-x-full translate-y-full scale-0 group-target:translate-x-0 group-target:translate-y-0 group-target:scale-100 transition-transform duration-300 sm:mr-0 sm:rounded-br-none">
           <div className="mb-8 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold italic text-3xl uppercase">
+              <h2 className="font-bold italic text-3xl uppercase text-primary-white">
                 Напишите нам
               </h2>
               <a href="#" className="material-symbols-outlined text-white/80">
@@ -237,7 +194,9 @@ const Index = () => {
             </div>
 
             <div className="flex justify-end">
-              <Button type="submit">Отправить</Button>
+              <button type="submit" className="btn">
+                Отправить
+              </button>
             </div>
           </Form>
         </div>

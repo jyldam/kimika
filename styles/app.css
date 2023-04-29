@@ -10,5 +10,13 @@ textarea,
 button,
 select,
 a {
-  -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn {
+    @apply inline-flex items-center gap-2 bg-yellow-400 text-black font-bold px-8 py-4 rounded-md
+}
+
+.btn-aggressive {
+    @apply inline-flex items-center gap-2 italic font-bold tracking-wider text-xl px-8 py-2 border-2 border-yellow-400 text-yellow-400 -skew-x-12
 }
